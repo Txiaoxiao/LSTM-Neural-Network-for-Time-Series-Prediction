@@ -86,14 +86,14 @@ class Transform():
 		for cycleNum in range(self.get_totalCycle()):
 			if self.get_data_names(cycleNum).__contains__('Capacity'):
 				capacity = self.get_data(cycleNum,'Capacity').tolist()
-				capacityList.append(capacity)
-				#capacityList.append([cycleNum,capacity])
+				#capacityList.append(capacity)
+				capacityList.append([cycleNum,capacity])
 		return capacityList
 
 def B_Mat2Csv():
 	dataNames = {'B0005','B0006','B0007','B0018'}
 	# columns = ['cycle','capacity']
-	columns = ['capacity']
+	columns = ['cycle','capacity']
 	for file in dataNames:
 		filepath = '../data/'+file+'.mat'
 		print(filepath)
@@ -123,8 +123,4 @@ if __name__ == '__main__':
 	# print(data)
 	# data.to_csv('../data/B0005_cycle_capacity.csv',encoding='gbk')
 
-	#B_Mat2Csv()
-
-	fp = '../data/2017-06-30_batchdata.mat'
-	mat=h5py.File(fp)
-	print(mat.keys())
+	B_Mat2Csv()

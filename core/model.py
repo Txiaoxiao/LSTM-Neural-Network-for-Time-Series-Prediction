@@ -29,11 +29,13 @@ class Model():
 			return_seq = layer['return_seq'] if 'return_seq' in layer else None
 			input_timesteps = layer['input_timesteps'] if 'input_timesteps' in layer else None
 			input_dim = layer['input_dim'] if 'input_dim' in layer else None
+			out_dim = 100 if neurons==50 else 1
 
 			if layer['type'] == 'dense':
 				self.model.add(Dense(neurons, activation=activation))
 			if layer['type'] == 'lstm':
 				self.model.add(LSTM(neurons, input_shape=(input_timesteps, input_dim), return_sequences=return_seq))
+			    #self.model.add(LSTM(neurons, input_dim=input_dim, output_dim=out_dim, return_sequences=return_seq))
 			if layer['type'] == 'dropout':
 				self.model.add(Dropout(dropout_rate))
 

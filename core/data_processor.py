@@ -1,17 +1,35 @@
 import math
 import numpy as np
 import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
 
 class DataLoader():
     """A class for loading and transforming data for the lstm model"""
 
-    def __init__(self, filename, split, cols):
-        dataframe = pd.read_csv(filename)
+    def __init__(self, filename, split, cols,seq_len):
+        dataframe = pd.read_csv(filename,sep=',',usecols=[1])
+        # dataframe = np.array(dataframe).astype(float)
+        # scaler = MinMaxScaler()
+        # dataframe = scaler.fit_transform(dataframe)
+        #
+        # data = []
+        # for i in range(len(dataframe)-seq_len-1):
+        #     data.append(dataframe[i:i+seq_len+1])
+        # reshaped_data = np.array(data).astype('float64')
+        # x = reshaped_data[:, :-1]
+        # y = reshaped_data[:, -1]
+        #
+        # split_boundary = int(reshaped_data.shape[0] * split)
+        # train_x = x[: split_boundary]
+        # test_x = x[split_boundary:]
+        # train_y = y[: split_boundary]
+        # test_y = y[split_boundary:]
+
         i_split = int(len(dataframe) * split)
         self.data_train = dataframe.get(cols).values[:i_split]
-        self.data_test  = dataframe.get(cols).values[i_split:]
-        self.len_train  = len(self.data_train)
-        self.len_test   = len(self.data_test)
+        self.data_test = dataframe.get(cols).values[i_split:]
+        self.len_train = len(self.data_train)
+        self.len_test = len(self.data_test)
         self.len_train_windows = None
 
     def get_test_data(self, seq_len, normalise):
