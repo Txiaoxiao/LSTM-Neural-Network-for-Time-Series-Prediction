@@ -3,7 +3,7 @@
  -*- coding: utf-8 -*-
  @Time    : 2019/6/18 20:34
  @Author  : Tang
- @File    : data_2017-05-12_batchdata.py
+ @File    : data_2017-06-30_batchdata.py
  @Software: PyCharm
  @reference:https://github.com/rdbraatz/data-driven-prediction-of-battery-cycle-life-before-capacity-degradation
  @description:The data associated with each battery (cell) can be grouped into
