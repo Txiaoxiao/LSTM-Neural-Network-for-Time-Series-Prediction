@@ -1,10 +1,17 @@
-# LSTM Neural Network for Time Series Prediction
+# LSTM Neural Network for Battery Remaining Useful Lifetime(RUL) Prediction
 
-LSTM built using the Keras Python package to predict time series steps and sequences. Includes sine wave and stock market data.
+LSTM built using the Keras Python package to predict battery remaining using lifetime(RUL).
 
-[Full article write-up for this code](https://www.altumintelligence.com/articles/a/Time-Series-Prediction-Using-LSTM-Deep-Neural-Networks)
 
-[Video on the workings and usage of LSTMs and run-through of this code](https://www.youtube.com/watch?v=2np77NOdnwk)
+2019.06.20: Only data processing part is working.
+
+##.py file
+#### utils.py: 
+    transform .mat to .csv. of NASA battery data.
+#### data_2017_06_30_batchdata.py:
+    transform .mat to .csv of data from https://github.com/rdbraatz/data-driven-prediction-of-battery-cycle-life-before-capacity-degradation/blob/master. 
+    Paper: "data-driven-prediction-of-battery-cycle-life-before-capacity-degradation"
+    
 
 ## Requirements
 
@@ -15,11 +22,3 @@ Install requirements.txt file to make sure correct versions of libraries are bei
 * Numpy 1.15.0
 * Keras 2.2.2
 * Matplotlib 2.2.2
-
-Output for sine wave sequential prediction:
-
-![Output for sin wave sequential prediction](https://www.altumintelligence.com/assets/time-series-prediction-using-lstm-deep-neural-networks/sinwave_full_seq.png)
-
-Output for stock market multi-dimensional multi-sequential predictions:
-
-![Output for stock market multiple sequential predictions](https://www.altumintelligence.com/assets/time-series-prediction-using-lstm-deep-neural-networks/sp500_multi_2d.png)
