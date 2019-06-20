@@ -29,7 +29,7 @@ import pickle
 import csv
 import pandas as pd
 
-def main_struct():
+def main_try():
     matFilename = 'H:\\Download\\2017-06-30_batchdata_updated_struct_errorcorrect.mat'
     f = h5py.File(matFilename, 'r+')
     print(f.keys())
@@ -100,19 +100,16 @@ def main():
 #  header = ['cell','cycle_life','charge_policy','cycle','IR','QC','QD','Tavg','Tmin','Tmax','chargetime']
 #  cell,cycle_life,cycle,charge_policy,IR,QC,QD,Tavg,Tmin,Tmax,chargetime
 #     csv_file='../data/2017_06_30_batchdatainrow.csv'
-    # writeDicToCsvInRows(csv_file, ',', bat_dict['b2c0']['summary'])
-    # writeDicToCsvInRows(csv_file,',',bat_dict)
-    csv_file='../data/2017_06_30_cell0_data.csv'
+
     for i in range(len(bat_dict)):
         csv_file='../data/2017_06_30_cell{0}_data.csv'.format(i)
         cell_key = 'b2c'+str(i)
         writeToCSV(csv_file,bat_dict[cell_key],i)
-
     writeToCSV(csv_file,bat_dict['b2c0'],0)
 
-def writeToCSV(csv_file,cell_data,cel_num):
 
-    cell = cel_num;
+def writeToCSV(csv_file,cell_data,cel_num):
+    cell = cel_num
     cycle_life =int(cell_data['cycle_life'])
     charge_policy = str(cell_data['charge_policy'])
     summary = cell_data['summary']
@@ -134,8 +131,6 @@ def writeToCSV(csv_file,cell_data,cel_num):
 
     data = pd.DataFrame(columns=header,data=cell_list)
     data.to_csv(csv_file,index=False)
-
-
 
 def writeDicToCsvInRows(csv_file, csv_columns, bat_dict):
     with open(csv_file,'w') as csvfile:

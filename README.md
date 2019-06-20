@@ -5,7 +5,7 @@ LSTM built using the Keras Python package to predict battery remaining using lif
 
 2019.06.20: Only data processing part is working.
 
-##.py file
+## .py file
 #### utils.py: 
     transform .mat to .csv. of NASA battery data.
 #### data_2017_06_30_batchdata.py:
