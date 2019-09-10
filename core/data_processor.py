@@ -7,7 +7,7 @@ class DataLoader():
     """A class for loading and transforming data for the lstm model"""
 
     def __init__(self, filename, split, cols,seq_len):
-        dataframe = pd.read_csv(filename,sep=',',usecols=[1])
+        dataframe = pd.read_csv(filename,sep=',',usecols=[3,4,5,6,7,8,10])
         # dataframe = np.array(dataframe).astype(float)
         # scaler = MinMaxScaler()
         # dataframe = scaler.fit_transform(dataframe)

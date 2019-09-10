@@ -29,8 +29,7 @@ import pickle
 import csv
 import pandas as pd
 
-def main_try():
-    matFilename = 'H:\\Download\\2017-06-30_batchdata_updated_struct_errorcorrect.mat'
+def main_try(matFilename):
     f = h5py.File(matFilename, 'r+')
     print(f.keys())
 
@@ -49,8 +48,7 @@ def main_try():
     cycles = f[f['batch']['cycles'][0, 0]]  # group object. use cycles['name']访问
     print(cycles['I'].shape)  # (326,1) 每个电池的实验循环次数 num of cycles of a cell.
 
-def main():
-    matFilename = 'H:\\Download\\2017-06-30_batchdata_updated_struct_errorcorrect.mat'
+def rul_csv(matFilename):
     f = h5py.File(matFilename, 'r+')
     print(f.keys())
 
@@ -96,9 +94,9 @@ def main():
     # plt.show()
 
 # DONE:
-#  write to csv file.
-#  header = ['cell','cycle_life','charge_policy','cycle','IR','QC','QD','Tavg','Tmin','Tmax','chargetime']
-#  cell,cycle_life,cycle,charge_policy,IR,QC,QD,Tavg,Tmin,Tmax,chargetime
+#  write to csv file. 11 columns.
+#  header = ['cell','cycle_life','charge_policy','cycle','IR','Tavg','Tmin','Tmax','chargetime','QD',]
+#  cell,cycle_life,cycle,charge_policy,IR,Tavg,Tmin,Tmax,chargetime,QC,QD
 #     csv_file='../data/2017_06_30_batchdatainrow.csv'
 
     for i in range(len(bat_dict)):
@@ -106,6 +104,20 @@ def main():
         cell_key = 'b2c'+str(i)
         writeToCSV(csv_file,bat_dict[cell_key],i)
     writeToCSV(csv_file,bat_dict['b2c0'],0)
+
+def soc_csv(matFilename):
+    f = h5py.File(matFilename, 'r+')
+    print('keys: ',f.keys())
+    batch = f['batch']
+    print('batch_keys: ',batch.keys())
+    cycles = batch['cycles']
+    print('shape of batch.cycles:',cycles.shape)
+
+    cycle_0 = f[cycles[0,0]]
+    print('cycle_0_keys: ',cycle_0.keys())
+    Qdlin = cycle_0['Qdlin']
+    print('cycle_0_Qdlin: ',Qdlin)
+
 
 
 def writeToCSV(csv_file,cell_data,cel_num):
@@ -115,19 +127,21 @@ def writeToCSV(csv_file,cell_data,cel_num):
     summary = cell_data['summary']
     cycle = summary['cycle']
     IR = summary['IR']
-    QC = summary['QC']
-    QD = summary['QD']
     Tavg = summary['Tavg']
     Tmin = summary['Tmin']
     Tmax = summary['Tmax']
     chargetime = summary['chargetime']
+    QC = summary['QC']
+    QD = summary['QD']
 
     r_num = cycle.size#row number
-
+    lable1 = QD[1:].tolist()
+    lable1.append(lable1[-1])
     cell_list = list()
     for i in range(r_num):
-        cell_list.append([cell,cycle_life,charge_policy,cycle[i],IR[i],QC[i],QD[i],Tavg[i],Tmin[i],Tmax[i],chargetime[i]])
-    header = ['cell','cycle_life','charge_policy','cycle','IR','QC','QD','Tavg','Tmin','Tmax','chargetime']
+        cell_list.append([cell,cycle_life,charge_policy,cycle[i],IR[i],Tavg[i],Tmin[i],Tmax[i],chargetime[i],QD[i],lable1[i]])
+
+    header = ['cell','cycle_life','charge_policy','cycle','IR','Tavg','Tmin','Tmax','chargetime','QD','label']
 
     data = pd.DataFrame(columns=header,data=cell_list)
     data.to_csv(csv_file,index=False)
@@ -144,6 +158,9 @@ def writeDicToCsvInRows(csv_file, csv_columns, bat_dict):
     return
 
 if __name__ == '__main__':
-    main()
+
+    matFilename = 'H:\\Data\\2017-06-30_batchdata_updated_struct_errorcorrect.mat'
+    # rul_csv(matFilename)
     #test()
+    soc_csv(matFilename)
 
