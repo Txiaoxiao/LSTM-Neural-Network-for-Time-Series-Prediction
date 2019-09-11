@@ -111,12 +111,50 @@ def soc_csv(matFilename):
     batch = f['batch']
     print('batch_keys: ',batch.keys())
     cycles = batch['cycles']
-    print('shape of batch.cycles:',cycles.shape)
+    print('shape of batch.cycles:',cycles.shape) #48,1
+    print('len of batch_cycles: ',len(cycles)) #48
 
-    cycle_0 = f[cycles[0,0]]
-    print('cycle_0_keys: ',cycle_0.keys())
-    Qdlin = cycle_0['Qdlin']
-    print('cycle_0_Qdlin: ',Qdlin)
+    # cell_0 = f[cycles[0,0]]
+    # print('cell_0_keys: ',cell_0.keys())
+    # Qdlin = f[cell_0['Qdlin'][0,0]][0]
+    # # print('cycle_0_Qdlin: ',Qdlin)#f[Qdlin[0,0]][:]
+    # Qc = f[cell_0['Qc'][0,0]][0]
+    # Qd = f[cell_0['Qd'][0,0]][0]
+    # t = f[cell_0['t'][0,0]][0]
+    # Qc_max = np.array(Qc).max()
+    # Qd_max = np.array(Qd).max()
+    # print('Qc_max: {0}, Qd_max: {1}'.format(Qc_max,Qd_max))
+    # # Qc_max = Qc[-1]
+    # # Qd = Qc_max - Qd
+    # plt.plot(t,Qc,'r')
+    # plt.plot(t,Qd,'b')
+    # plt.show()
+
+    for num_i in range(len(cycles)): #every battery
+        soc_file_name = '../data/2017_06_30_soc_data/'+'cell_{0}_soc.xls'.format(num_i)
+        writer = pd.ExcelWriter(soc_file_name, engine='xlsxwriter')
+        cell_i = f[cycles[num_i,0]]
+        cell_i_cycles =  len(cell_i['Qc'])
+        print(cell_i_cycles)
+        for cycle_i in range(len(cell_i['Qc'])): #every cycle of a certain battery
+            t = np.array(f[cell_i['t'][cycle_i,0]][0])
+            Qc = np.array(f[cell_i['Qc'][cycle_i,0]][0])
+            I = np.array(f[cell_i['I'][cycle_i,0]][0])
+            V = np.array(f[cell_i['V'][cycle_i,0]][0])
+            T = np.array(f[cell_i['T'][cycle_i,0]][0])
+            Qd = np.array(f[cell_i['Qd'][cycle_i,0]][0])
+            Qd = Qc.max() - Qd
+            capacity = np.minimum(Qc,Qd)
+            df = pd.DataFrame(columns=[t,I,V,T,capacity])
+            df.to_excel(writer,'cycle'+str(cycle_i),index=False)
+        writer.save()
+
+
+
+
+
+
+
 
 
 
