@@ -12,13 +12,3 @@ LSTM built using the Keras Python package to predict battery remaining using lif
     transform .mat to .csv of data from https://github.com/rdbraatz/data-driven-prediction-of-battery-cycle-life-before-capacity-degradation/blob/master. 
     Paper: "data-driven-prediction-of-battery-cycle-life-before-capacity-degradation"
     
-
-## Requirements
-
-Install requirements.txt file to make sure correct versions of libraries are being used.
-
-* Python 3.5.x
-* TensorFlow 1.10.0
-* Numpy 1.15.0
-* Keras 2.2.2
-* Matplotlib 2.2.2
